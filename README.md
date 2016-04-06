@@ -1,2 +1,2 @@
-# tech_exe
+# MySQL Technical Exercise
 Technical Exercise

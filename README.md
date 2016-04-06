@@ -1,6 +1,5 @@
 # MySQL Technical Exercise
 
-
 ################## DOCUMENTATION ####################
 ### Test Setup
 
@@ -71,29 +70,31 @@ I assumed that the result would have to be a concatenation of all amount of "ord
 In the second select "significant_value", a "CASE THEN" command must be used to choose which value to return. (see Logs 4.4 for further details)
 
 5.1 - Table creation:
-1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
+	1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 
-#     CREATE TABLE categories
-#        ( id 					INT NOT NULL  PRIMARY KEY AUTO_INCREMENT
-#         , category_level   	INT(1) NOT NULL
-#         , parentid 			INT     NULL
-#         , foreign key FK_parentid (parentid) 
-#           REFERENCES categories (id)
-#     ) ENGINE=InnoDB
+```js
+     CREATE TABLE categories
+        ( id 					INT NOT NULL  PRIMARY KEY AUTO_INCREMENT
+         , category_level   	INT(1) NOT NULL
+         , parentid 			INT     NULL
+         , foreign key FK_parentid (parentid) 
+           REFERENCES categories (id)
+     ) ENGINE=InnoDB
+```js
 
-2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the "BEFORE INSERT" and "AFTER UPDATE" triggers must be created;
+	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the "BEFORE INSERT" and "AFTER UPDATE" triggers must be created;
 
 	- Before INSERT:
-
-# DELIMITER $$
-# 
-# CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
-# FOR EACH ROW BEGIN
-#    IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
-#         INSERT INTO category(category_level) VALUES(0);
-#    END IF;
-# END$$
-
+```js
+ DELIMITER $$
+ 
+ CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
+ FOR EACH ROW BEGIN
+    IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
+         INSERT INTO category(category_level) VALUES(0);
+    END IF;
+ END$$
+```
 	- After UPDATE:
 	
 ```js
@@ -321,4 +322,3 @@ OR
 ### 5.2.4
 # SELECT COUNT(*) FROM categories
 # WHERE category_level = 3	
-

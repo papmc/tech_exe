@@ -96,14 +96,16 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 
 	- After UPDATE:
 	
-# DELIMITER $$
-# 
-# CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories
-# FOR EACH ROW BEGIN
-#    IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
-#         INSERT INTO categories(category_level) VALUES(OLD.category_level);
-#    END IF;
-# END$$
+```js
+ DELIMITER $$
+ 
+ CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories
+ FOR EACH ROW BEGIN
+    IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
+         INSERT INTO categories(category_level) VALUES(OLD.category_level);
+    END IF;
+ END$$
+``` 
 
 	- Data insertion (see Logs section 5.1)
 		- TO achieve greater simplicity, I assumed the ID structure given in the example:
@@ -304,7 +306,7 @@ OR
 
 # 5.2.1
 ## SELECT * FROM categories
-## WHERE category_level = 0
+#### WHERE category_level = 0
 
 ### 5.2.2
 ## Select all Sub Categories level 3 from Parent TOP level 2 = 2

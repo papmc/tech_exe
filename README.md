@@ -103,7 +103,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 ###### After UPDATE:
 ---
 	
-```js
+```sql
  DELIMITER $$
  
  CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories

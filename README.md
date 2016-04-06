@@ -87,6 +87,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 	and **"AFTER UPDATE"** triggers must be created;
 
 ###### Before INSERT:
+---
 ```js
  DELIMITER $$
  

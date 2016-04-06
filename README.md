@@ -86,7 +86,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
 	and **"AFTER UPDATE"** triggers must be created;
 
-## Before INSERT:
+#### Before INSERT:
 ```js
  DELIMITER $$
  

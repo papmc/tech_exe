@@ -1,7 +1,6 @@
 # MySQL Technical Exercise
 
 
-
 ################## DOCUMENTATION ####################
 ### Test Setup
 
@@ -303,9 +302,9 @@ OR
 #	        COMMIT;
 #	    END$$
 
-### 5.2.1
-# SELECT * FROM categories
-# WHERE category_level = 0
+# 5.2.1
+## SELECT * FROM categories
+## WHERE category_level = 0
 
 ### 5.2.2
 ## Select all Sub Categories level 3 from Parent TOP level 2 = 2

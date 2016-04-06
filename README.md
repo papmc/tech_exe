@@ -73,7 +73,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 
 1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 
-```sql
+```js
      CREATE TABLE categories
         ( id 					INT NOT NULL  PRIMARY KEY AUTO_INCREMENT
          , category_level   	INT(1) NOT NULL
@@ -89,7 +89,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 ---
 ###### Before INSERT:
 ---
-```sql
+```js
  DELIMITER $$
  
  CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
@@ -103,7 +103,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 ###### After UPDATE:
 ---
 	
-```sql
+```js
  DELIMITER $$
  
  CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories

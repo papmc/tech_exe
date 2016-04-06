@@ -90,28 +90,24 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 ###### Before INSERT:
 ---
 ```sql
- DELIMITER $$
- 
  CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
  FOR EACH ROW BEGIN
     IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
          INSERT INTO category(category_level) VALUES(0);
     END IF;
- END$$
+ END
 ```
 ---
 ###### After UPDATE:
 ---
 	
 ```sql
- DELIMITER $$
- 
  CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories
  FOR EACH ROW BEGIN
     IF (NEW.category_level < 0 OR NEW.category_level > 5) THEN
          INSERT INTO categories(category_level) VALUES(OLD.category_level);
     END IF;
- END$$
+ END
 ``` 
 
 	- Data insertion (see Logs section 5.1)

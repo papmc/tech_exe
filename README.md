@@ -97,7 +97,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
     END IF;
  END$$
 ```
-	- After UPDATE:
+###### After UPDATE:
 	
 ```js
  DELIMITER $$

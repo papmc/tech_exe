@@ -71,7 +71,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 
 5.1 - Table creation:
 
-	1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
+1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 
 ```js
      CREATE TABLE categories
@@ -83,8 +83,8 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
      ) ENGINE=InnoDB
 ```
 
-	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
-	and **"AFTER UPDATE"** triggers must be created;
+2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the "BEFORE INSERT"
+	and "AFTER UPDATE" triggers must be created;
 
 	- Before INSERT:
 ```js

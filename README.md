@@ -83,8 +83,8 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
      ) ENGINE=InnoDB
 ```
 
-	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the _"BEFORE INSERT"_ 
-	and _"AFTER UPDATE"_ triggers must be created;
+	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the ```js "BEFORE INSERT" ```
+	and "AFTER UPDATE" triggers must be created;
 
 	- Before INSERT:
 ```js

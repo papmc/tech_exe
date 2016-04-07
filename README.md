@@ -223,7 +223,7 @@ SELECT * FROM formatted_orders AS fo
 ```	
 
 #### 5.1
-* Table creation:
+* Approuch taken:
 
 	1. In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 	

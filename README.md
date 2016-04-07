@@ -228,6 +228,9 @@ SELECT * FROM formatted_orders AS fo
 * Table creation:
 
 	1. In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
+	
+	2. To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
+	and **"AFTER UPDATE"** triggers must be created;
 
 ```sql
      CREATE TABLE categories
@@ -238,7 +241,6 @@ SELECT * FROM formatted_orders AS fo
            REFERENCES categories (id)
      ) ENGINE=InnoDB
 ```
-*  
 
 	2. To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
 	and **"AFTER UPDATE"** triggers must be created;

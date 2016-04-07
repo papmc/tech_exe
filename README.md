@@ -214,9 +214,10 @@ SELECT * FROM formatted_orders AS fo
 ```
 
 #### 4.4
-* In order to filter NULL values on the table **"t2"** for values in the table **"t1"**, a **"LEFT JOIN"** must be used where the table **"t1"** will be on the left side of the **"JOIN"** command;
+* Solution steps: 
+	1. In order to filter NULL values on the table **"t2"** for values in the table **"t1"**, a **"LEFT JOIN"** must be used where the table **"t1"** will be on the left side of the **"JOIN"** command;
 
-* In the second select **"significant_value"**, a **"CASE THEN"** command must be used to choose which value to return.
+	2. In the second select **"significant_value"**, a **"CASE THEN"** command must be used to choose which value to return.
 ---
 ```sql
  SELECT t1.t_id AS product_id, 

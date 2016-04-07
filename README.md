@@ -69,9 +69,165 @@ I assumed that the result would have to be a concatenation of all amount of "ord
 4.4 - In order to filter NULL values on the table "t2" for values in the table "t1", a "LEFT JOIN" must be used where the table "t1" will be on the left side of the "JOIN" command.
 In the second select "significant_value", a "CASE THEN" command must be used to choose which value to return. (see Logs 4.4 for further details)
 
+
+#### Notes
+- Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server.
+Solution: 
+	1) Create table with collation "utf8";
+	2) Collate the created table to "utf8mb4_unicode_ci".
+	
+###### 'formatted orders'
+- Provided query was misusing the command "use" within the "CREATE TABLE" - In order to create the table I had to remove this command;
+
+#### 1.2.1
+```sql
+CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
+	BEGIN
+		DECLARE i INT;
+		SET i = 1;
+		START TRANSACTION;
+		WHILE i <= NumRows DO
+			INSERT INTO raw_orders (order_revenue, order_id) VALUES (MinVal + round(RAND() * (MaxVal - MinVal), 2), UUID());
+			SET i = i + 1;
+		END WHILE;
+		COMMIT;
+	END
+```
+	
+#CALL
+#  InsertRandomData_rawOrders(5000,
+#  1,
+#  10000)
+
+#### 1.2.2
+```sql
+	CREATE PROCEDURE `populateFormattedOrders`()
+		BEGIN
+			INSERT INTO formatted_orders(client_order_id, order_revenue)
+			SELECT raw_orders.order_id, raw_orders.order_revenue
+				FROM raw_orders;
+			COMMIT;
+		END
+```
+
+#### 1.2.3.1
+```sql
+SELECT * FROM formatted_orders AS fo 
+	JOIN raw_orders AS ro ON ro.order_id = fo.client_order_id COLLATE utf8mb4_unicode_ci
+	WHERE fo.order_id BETWEEN 100 AND 199
+```
+
+#### 1.2.3.2
+- Not applicable.
+
+#### 1.2.4
+
+###### Steps
+	1) There is a need to change the length and collation type of the column "client_order_id" in order to allow the "alter" command to execute
+	2) Change collation of column "client_order_id" from table "formatted_orders": "utf8mb4_general_ci" to "utf8mb4_unicode_ci"
+```sql
+ ALTER TABLE formatted_orders 
+	CHANGE client_order_id client_order_id VARCHAR(200) 
+	CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+```
+
+###### After the collation type has been change, the length can now be set to the original length - VARCHAR(50);
+```sql 
+ ALTER TABLE formatted_orders 
+	CHANGE client_order_id client_order_id VARCHAR(50) 
+	CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+```
+
+###### Add Foreign Key
+```sql
+ ALTER TABLE formatted_orders ADD CONSTRAINT fk_OrderID
+ 	FOREIGN KEY ( client_order_id ) REFERENCES raw_orders ( order_id )
+ 	ON DELETE NO ACTION ON UPDATE NO ACTION
+```
+	
+#### 2.1.1
+###### Improvements: 
+- Remove nested select;
+- Add the command "IGNORE INDEX(PRIMARY)" to the select.
+
+#### 2.2.2
+
+#### 2.2.3
+ 
+# SELECT raw_orders.*
+# FROM raw_orders
+# JOIN formatted_orders_copy AS fo ON fo.client_order_id  = raw_orders.order_id AND fo.order_id < 450
+# WHERE raw_orders.order_revenue > 50
+
+#### 3.1
+
+```sql
+	CREATE FUNCTION revenueMultiples10 ()
+	RETURNS TEXT
+	BEGIN
+
+	   DECLARE concatReturn TEXT DEFAULT "";
+	   DECLARE currentReturn VARCHAR(20);
+	   DECLARE mValue NUMERIC(15, 2);
+	   DECLARE currentCount, it, printIT INT;
+	   
+	   SET mValue = (SELECT MAX(order_revenue) from formatted_orders);
+	   SET currentCount = 0, it = 0, printIT = 0;
+
+	   SEARCH: WHILE it <= mValue DO
+		 SET it = it + 10;
+		 SET printIT = it - 10;
+		 SET currentCount  = (SELECT COUNT(order_revenue) FROM formatted_orders where order_revenue >= printIT AND order_revenue < it);     
+		 SET currentReturn = concat(concat(concat("(", concat(concat(printIT, "-"), it)), ")"), " = ");
+		 SET currentReturn = concat(currentReturn, concat(currentCount, " | "));
+		 SET concatReturn = concat(concatReturn, currentReturn);
+		
+	   END WHILE SEARCH;
+
+	   RETURN concatReturn;
+
+	END
+```
+
+#### 4.1
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t1
+	INNER JOIN t2  ON t2.ID = t1.ID
+```
+
+#### 4.2
+---
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t1
+	LEFT JOIN t2  ON t1.ID = t2.ID
+```
+###### OR
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t2
+	RIGHT JOIN t1  ON t1.ID = t2.ID
+```
+
+#### 4.3
+---
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t1
+ RIGHT JOIN t2  ON t1.ID = t2.ID
+```
+
+#### 4.4
+---
+```sql
+ SELECT t1.t_id AS product_id, 
+	IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
+	LEFT JOIN t2 ON t2.id = t1.t_id
+```	
+
+#### 5.1
+
+
 5.1 - Table creation:
 
-1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
+	1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 
 ```sql
      CREATE TABLE categories
@@ -83,7 +239,7 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
      ) ENGINE=InnoDB
 ```
 
-2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
+	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
 	and **"AFTER UPDATE"** triggers must be created;
 	
 ---
@@ -111,159 +267,17 @@ In the second select "significant_value", a "CASE THEN" command must be used to 
 ``` 
 
 	- Data insertion (see Logs section 5.1)
-		- TO achieve greater simplicity, I assumed the ID structure given in the example:
-		123456		
+		- To achieve greater simplicity, I assumed the ID structure given in the example:
+		ID:	134526		
 		1 - TOP LEVEL 0 ID
-		2 - Sub level 1 ID
-		3 - Sub level 2 ID
-		4 - Sub level 3 ID
-		5 - Sub level 4 ID
+		3 - Sub level 1 ID
+		4 - Sub level 2 ID
+		5 - Sub level 3 ID
+		2 - Sub level 4 ID
 		6 - Sub level 5 ID
 
-5.2.1 - Since my design included a "category_level" field, I only need to execute a "SELECT" command with a "WHERE" clause indicating the "category_level" equals 0. (see Logs section 5.2.1 for further details)
 
-5.2.2 - Assuming the data architecture described in the section 5.1, the "LEFT(parentid, 1)" command needs to be executed in order to retrieve the ID of the parent top level id; (see Logs section 5.2.2 for further details)
 
-5.2.3 - Since the operator "LIKE" cannot be used, I decided to use the operators "RIGHT" and "LEFT" in conjuction to obtain the desired result. (see Logs 5.2.3 for further details)
-
-5.2.4 - The use of the command "COUNT(*)" in conjunction with the clause "WHERE" specifying the sub category 4 produces the desired result (see Logs 5.2.4 for further details)
-
-#################### LOG ############################
-### Creating 'raw_orders' & 'formatted orders'
-
-Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server
-Solution: 
-	1) Create table with collation "utf8"
-	2) Collate the created table to "utf8mb4_unicode_ci"
-	
-### 'formatted orders'
-Provided query was misusing the command "use" within the "CREATE TABLE" - In order to create the table I had to remove this command;
-
-### 1.2.1
-## PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
-#BEGIN
-#        DECLARE i INT;
-#        SET i = 1;
-#        START TRANSACTION;
-#        WHILE i <= NumRows DO
-#            INSERT INTO raw_orders (order_revenue, order_id) VALUES (MinVal + round(RAND() * (MaxVal - MinVal), 2), UUID());
-#            SET i = i + 1;
-#        END WHILE;
-#        COMMIT;
-#    END
-
-#CALL
-#  InsertRandomData_rawOrders(5000,
-#  1,
-#  10000)
-
-### 1.2.2
-## PROCEDURE populateFormattedOrders
-#BEGIN
-#        INSERT INTO formatted_orders(client_order_id, order_revenue)
-#    	 SELECT raw_orders.order_id, raw_orders.order_revenue
-#    	 FROM raw_orders;
-#         COMMIT;
-#    END
-
-### 1.2.3.1
-#SELECT * FROM formatted_orders AS fo 
-#JOIN raw_orders AS ro ON ro.order_id = fo.client_order_id COLLATE utf8mb4_unicode_ci
-#WHERE fo.order_id BETWEEN 100 AND 199
-
-### 1.2.3.2
-# Not applicable.
-
-### 1.2.4
-##There is a need to change the length and collation type of the column "client_order_id" in order to allow the "alter" command to execute
-## Change collation of column "client_order_id" from table "formatted_orders": "utf8mb4_general_ci" to "utf8mb4_unicode_ci"
-# ALTER TABLE formatted_orders 
-# CHANGE client_order_id client_order_id VARCHAR(200) 
-# CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
-
-##After the collation type has been change, the length can now be set to the original length - VARCHAR(50);
-# ALTER TABLE formatted_orders 
-# CHANGE client_order_id client_order_id VARCHAR(50) 
-# CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
-
-## Add Foreign Key
-# ALTER TABLE formatted_orders ADD CONSTRAINT fk_OrderID
-# FOREIGN KEY ( client_order_id ) REFERENCES raw_orders ( order_id )
-# ON DELETE NO ACTION ON UPDATE NO ACTION
-
-### 2.1.1
-## Remove nested select
-# SELECT raw_orders.*
-# FROM raw_orders
-# JOIN formatted_orders_copy AS fo ON fo.client_order_id  = raw_orders.order_id AND fo.order_id < 450
-# WHERE raw_orders.order_revenue > 50
-
-### 3.1
-# DELIMITER //
-# 
-# CREATE FUNCTION revenueMultiples10 ()
-# RETURNS TEXT
-# BEGIN
-# 
-#    DECLARE concatReturn TEXT DEFAULT "";
-#    DECLARE currentReturn VARCHAR(20);
-#    DECLARE mValue NUMERIC(15, 2);
-#    DECLARE currentCount, it, printIT INT;
-#    
-#    SET mValue = (SELECT MAX(order_revenue) from formatted_orders);
-#    SET currentCount = 0, it = 0, printIT = 0;
-# 
-#    SEARCH: WHILE it <= mValue DO
-#      SET it = it + 10;
-#      SET printIT = it - 10;
-#    	 SET currentCount  = (SELECT COUNT(order_revenue) FROM formatted_orders where order_revenue >= printIT AND order_revenue < it);     
-#      SET currentReturn = concat(concat(concat("(", concat(concat(printIT, "-"), it)), ")"), " = ");
-#      SET currentReturn = concat(currentReturn, concat(currentCount, " | "));
-#      SET concatReturn = concat(concatReturn, currentReturn);
-# 	
-#    END WHILE SEARCH;
-# 
-#    RETURN concatReturn;
-# 
-# END; //
-# 
-# DELIMITER ;
-
-#### 4.1
-```sql
- SELECT t1.value as value1, t2.value AS value2 FROM t1
-	INNER JOIN t2  ON t2.ID = t1.ID
-```
-
-#### 4.2
----
-```sql
- SELECT t1.value as value1, t2.value AS value2 FROM t1
-	LEFT JOIN t2  ON t1.ID = t2.ID
-```
-:: OR ::
-```sql
- SELECT t1.value as value1, t2.value AS value2 FROM t2
-	RIGHT JOIN t1  ON t1.ID = t2.ID
-```
-
-#### 4.3
----
-```sql
- SELECT t1.value as value1, t2.value AS value2 FROM t1
- RIGHT JOIN t2  ON t1.ID = t2.ID
-```
-
-#### 4.4
----
-```sql
- SELECT t1.t_id AS product_id, 
-	IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
-	LEFT JOIN t2 ON t2.id = t1.t_id
-```	
-
-#### 5.1
----
 ```sql
 CREATE PROCEDURE `populateCategories`()
 
@@ -321,6 +335,8 @@ BEGIN
 ```
 
 #### 5.2.1
+- Since my design included a **"category_level"** field, I only need to execute a **"SELECT"** command with a **"WHERE"** clause indicating the **"category_level"** equals 0. 
+
 ---
 ```sql
  SELECT * FROM categories
@@ -328,6 +344,7 @@ BEGIN
 ```
 
 #### 5.2.2
+- Assuming the data architecture described in the section 5.1, the **"LEFT(parentid, 1)"** command needs to be executed in order to retrieve the ID of the parent top level id; 
 ---
 - Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
@@ -337,6 +354,7 @@ BEGIN
 ```
  
 #### 5.2.3
+- Since the operator **"LIKE"** cannot be used, I decided to use the operators **"RIGHT"** and **"LEFT"** in conjuction to obtain the desired result. 
 ---
 - Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
@@ -346,6 +364,7 @@ BEGIN
 ```	
 
 #### 5.2.4
+- The use of the command **"COUNT(*)"** in conjunction with the clause **"WHERE"** specifying the sub category 4 produces the desired result.
 ---
 ```sql
  SELECT COUNT(*) FROM categories

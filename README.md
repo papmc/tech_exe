@@ -88,15 +88,13 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 ###### Error
 Collation error between the following fields:
 
-	<b>"order_id"</b> 			- Collation **"utf8mb4_unicode_ci"**
-	**"client_order_id"**	- Collation **"utf8mb4_general_ci"**
--- 
+	"order_id" 			- Collation "utf8mb4_unicode_ci"
+	"client_order_id"	- Collation"utf8mb4_general_ci"
+--
 ###### Solution
 * Collate one of the fields to match the other:
 
-
-	client_order_id COLLATE utf8mb4_unicode_ci
-
+	""client_order_id"" COLLATE ""utf8mb4_unicode_ci""
 
 --
 ```sql

@@ -23,11 +23,12 @@
 	Default Indexes: "client_order_id" and "PRIMARY"
 --
 
+---
 ### Solutions
+---
 
----
 #### Notes
----
+--
 - Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server.
 * Solution: 
 	1. Create table with collation "utf8";

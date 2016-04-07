@@ -7,20 +7,20 @@
 
 ###### Database
 --
-Database name: tech_ex
-Storage Engie: InnoDB
-Collation: utf8mb4_unicode_ci
+	Database name: tech_ex
+	Storage Engie: InnoDB
+	Collation: utf8mb4_unicode_ci
 --
 
 ###### Tables
 --
-Table: "raw_orders"
-Collation: "utf8mb4_unicode_ci"
-Default Indexes: "order_id" and "PRIMARY"
+	Table: "raw_orders"
+	Collation: "utf8mb4_unicode_ci"
+	Default Indexes: "order_id" and "PRIMARY"
 --
-Table: "formatted_orders"
-Collation: "utf8mb4_unicode_ci"
-Default Indexes: "client_order_id" and "PRIMARY"
+	Table: "formatted_orders"
+	Collation: "utf8mb4_unicode_ci"
+	Default Indexes: "client_order_id" and "PRIMARY"
 --
 
 ### Solutions
@@ -36,7 +36,7 @@ Default Indexes: "client_order_id" and "PRIMARY"
 	
 --	
 ###### 'formatted orders'
-- Provided query was misusing the command "use" within the "CREATE TABLE" - In order to create the table I had to remove this command;
+<p> The provided query was misusing the command <b>"use"</b> within the <b>"CREATE TABLE"</b> - In order to create the table I had to remove this command. </p>
 ---
 
 #### 1.1.1 
@@ -61,11 +61,11 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 		COMMIT;
 	END
 ```
-	
-#CALL
-#  InsertRandomData_rawOrders(5000,
-#  1,
-#  10000)
+--
+```sql	
+	CALL
+		InsertRandomData_rawOrders(5000,1,10000)
+```
 
 #### 1.2.2
 ---
@@ -109,9 +109,9 @@ SELECT * FROM formatted_orders AS fo
 	matching the two collations, it is now possible to create the foreign key <b>"FK_orderID"</b>. Since the <b>"DELETE"</b> and <b>"UPDATE"</b> actions were not specified, these were assumed as <b>"NO ACTION"</b>. </p>
 --
 ###### Steps
-* There is a need to change the length and collation type of the column **"client_order_id"** in order to allow the **"alter"** command to execute
+* There is a need to change the length and collation type of the column **"client_order_id"** in order to allow the **"alter"** command to execute;
 
-* Change collation of column **"client_order_id"** from table **"formatted_orders"**: **"utf8mb4_general_ci"** to **"utf8mb4_unicode_ci"**
+* Change collation of column **"client_order_id"** from table **"formatted_orders"**: **"utf8mb4_general_ci"** to **"utf8mb4_unicode_ci"**.
 --
 ```sql
  ALTER TABLE formatted_orders 

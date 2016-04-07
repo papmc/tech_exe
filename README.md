@@ -154,7 +154,7 @@ SELECT * FROM formatted_orders AS fo
 
 #### 2.1.2
 ---
-<p> It is <b>not</b> necessary since the MySQL API enables the user the opportunity to ignore or use a specific index in a <b>"SELECT"</b> statement. </p> 
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is <b>not</b> necessary since the MySQL API enables the user the opportunity to ignore or use a specific index in a <b>"SELECT"</b> statement. </p> 
 
 #### 2.1.3
 ---

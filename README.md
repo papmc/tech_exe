@@ -251,62 +251,62 @@ OR
 #  IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
 #  LEFT JOIN t2 ON t2.id = t1.t_id
 
-### 5.1
-#	DELIMITER $$
-#	CREATE PROCEDURE `populateCategories`()
-#	
-#	BEGIN
-#	        
-#	        DECLARE numCat INT DEFAULT 5;
-#	        DECLARE it, currentit, currentit2, currentit3, currentit4, currentit5 INT DEFAULT 1;
-#	        
-#	        START TRANSACTION;
-#			INSERT INTO log_db (id, times0, times1, times2, times3, times4, times5) VALUES (NULL, 0, 0, 0, 0, 0, 0);           
-#	        
-#	        -- CREATE LEVEL 0
-#	        WHILE it <= numCat DO			
-#				INSERT INTO categories (id, category_level, parentid) VALUES(it, 0, null);           
-#	            UPDATE log_db SET times0  = it;
-#	            -- CREATE LEVEL 1
-#	            WHILE currentit <= numCat DO
-#	              INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, currentit), 1, it);             
-#	              UPDATE log_db SET times1  = currentit * it;
-#	              -- CREATE LEVEL 2
-#	              WHILE currentit2 <= numCat DO
-#					  INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, currentit2)), 2, concat(it, currentit));				  
-#					  UPDATE log_db SET times2  = currentit2 * currentit * it;                  
-#	                   -- CREATE LEVEL 3
-#	                  WHILE currentit3 <= numCat DO
-#							INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, currentit3))), 3, concat(it, concat(currentit, currentit2)));					
-#							UPDATE log_db SET times3  = currentit3 *currentit2 * currentit * it ;                       
-#							-- CREATE LEVEL 4
-#	                        WHILE currentit4 <= numCat DO
-#								INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))), 4, concat(it, concat(currentit, concat(currentit2, currentit3))));					
-#								UPDATE log_db SET times4  = currentit4 * currentit3 * currentit2 * currentit * it;
-#	                             -- CREATE LEVEL 5
-#	                            WHILE currentit5 <= numCat DO
-#									INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, concat(currentit4, currentit5))))), 5, concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))));					
-#									UPDATE log_db SET times5  = currentit5 * currentit4 * currentit3 * currentit2 * currentit * it;      
-#	                                SET currentit5 = currentit5 + 1;
-#	                                END WHILE;                             
-#	                            SET currentit4 = currentit4 + 1;
-#								SET currentit5 = 1;  
-#	                         END WHILE;   							
-#							SET currentit3 = currentit3 + 1;
-#							SET currentit4 = 1;
-#					  END WHILE;
-#	                  SET currentit2 = currentit2 + 1;
-#					  SET currentit3 = 1;
-#				  END WHILE;
-#				  SET currentit = currentit + 1;
-#				  SET currentit2 = 1;
-#	            END WHILE;
-#	            SET currentit = 1;
-#	            SET it = it + 1;
-#			END WHILE;
-#	        COMMIT;
-#	    END$$
+# 5.1
+```sql
+CREATE PROCEDURE `populateCategories`()
 
+BEGIN
+        
+        DECLARE numCat INT DEFAULT 5;
+        DECLARE it, currentit, currentit2, currentit3, currentit4, currentit5 INT DEFAULT 1;
+        
+        START TRANSACTION;
+		INSERT INTO log_db (id, times0, times1, times2, times3, times4, times5) VALUES (NULL, 0, 0, 0, 0, 0, 0);           
+        
+        -- CREATE LEVEL 0
+        WHILE it <= numCat DO			
+			INSERT INTO categories (id, category_level, parentid) VALUES(it, 0, null);           
+            UPDATE log_db SET times0  = it;
+            -- CREATE LEVEL 1
+            WHILE currentit <= numCat DO
+              INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, currentit), 1, it);             
+              UPDATE log_db SET times1  = currentit * it;
+              -- CREATE LEVEL 2
+              WHILE currentit2 <= numCat DO
+				  INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, currentit2)), 2, concat(it, currentit));				  
+				  UPDATE log_db SET times2  = currentit2 * currentit * it;                  
+                   -- CREATE LEVEL 3
+                  WHILE currentit3 <= numCat DO
+						INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, currentit3))), 3, concat(it, concat(currentit, currentit2)));					
+						UPDATE log_db SET times3  = currentit3 *currentit2 * currentit * it ;                       
+						-- CREATE LEVEL 4
+                        WHILE currentit4 <= numCat DO
+							INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))), 4, concat(it, concat(currentit, concat(currentit2, currentit3))));					
+							UPDATE log_db SET times4  = currentit4 * currentit3 * currentit2 * currentit * it;
+                             -- CREATE LEVEL 5
+                            WHILE currentit5 <= numCat DO
+								INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, concat(currentit4, currentit5))))), 5, concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))));					
+								UPDATE log_db SET times5  = currentit5 * currentit4 * currentit3 * currentit2 * currentit * it;      
+                                SET currentit5 = currentit5 + 1;
+                                END WHILE;                             
+                            SET currentit4 = currentit4 + 1;
+							SET currentit5 = 1;  
+                         END WHILE;   							
+						SET currentit3 = currentit3 + 1;
+						SET currentit4 = 1;
+				  END WHILE;
+                  SET currentit2 = currentit2 + 1;
+				  SET currentit3 = 1;
+			  END WHILE;
+			  SET currentit = currentit + 1;
+			  SET currentit2 = 1;
+            END WHILE;
+            SET currentit = 1;
+            SET it = it + 1;
+		END WHILE;
+        COMMIT;
+    END
+```
 # 5.2.1
 ## SELECT * FROM categories
 #### WHERE category_level = 0

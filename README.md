@@ -38,24 +38,6 @@ Default Indexes: "client_order_id" and "PRIMARY"
 	
 1.2.3.2 - Not applicable.
 	
-1.2.4 - In order to create a foreign key between the two tables columns: "client_order_id" and "order_id", the two columns must have the same collation type.
-	Since the example given has different collations, I created a query to alter the collation type of the column "client_order_id" to "utf8mb4_unicode_ci". After
-	matching the two collations, it is now possible to create the foreign key "FK_orderID". Since the "DELETE" and "UPDATE" actions were not specified, these were assumed as "NO ACTION".
-	(see Logs section 1.2.4 for further details)
-
-
------------------------
-	
-2.1.1 - The query can be improved by substituting the nested select within the join, by the necessary condition upon the "JOIN" command execution.	
-
-2.1.2 - (NO?!)
-
-2.1.3 - (INDEXING)
-
------------------------
-
-
------------------------
 
 
 
@@ -113,6 +95,9 @@ SELECT * FROM formatted_orders AS fo
 - Not applicable.
 
 #### 1.2.4
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to create a foreign key between the two tables columns: "client_order_id" and "order_id", the two columns must have the same collation type.
+	Since the example given has different collations, I created a query to alter the collation type of the column "client_order_id" to "utf8mb4_unicode_ci". After
+	matching the two collations, it is now possible to create the foreign key "FK_orderID". Since the "DELETE" and "UPDATE" actions were not specified, these were assumed as "NO ACTION". </p>
 
 ###### Steps
 	1) There is a need to change the length and collation type of the column "client_order_id" in order to allow the "alter" command to execute
@@ -129,8 +114,10 @@ SELECT * FROM formatted_orders AS fo
 	CHANGE client_order_id client_order_id VARCHAR(50) 
 	CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 ```
-
+--
 ###### Add Foreign Key
+--
+
 ```sql
  ALTER TABLE formatted_orders ADD CONSTRAINT fk_OrderID
  	FOREIGN KEY ( client_order_id ) REFERENCES raw_orders ( order_id )
@@ -140,7 +127,7 @@ SELECT * FROM formatted_orders AS fo
 #### 2.1.1
 ###### Improvements: 
 1. Remove nested select;
-2. Add the command "USE INDEX(order_id)" to the select.
+2. Add the command **"USE INDEX(order_id)"** to the select.
 
 ```sql 
 	SELECT raw_orders.*

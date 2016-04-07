@@ -14,10 +14,12 @@
 
 ###### Tables
 --
+####### raw_orders
 	Table: "raw_orders"
 	Collation: "utf8mb4_unicode_ci"
 	Default Indexes: "order_id" and "PRIMARY"
 --
+####### formatted_orders
 	Table: "formatted_orders"
 	Collation: "utf8mb4_unicode_ci"
 	Default Indexes: "client_order_id" and "PRIMARY"

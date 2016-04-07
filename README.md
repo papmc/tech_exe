@@ -274,15 +274,16 @@ SELECT * FROM formatted_orders AS fo
  END
 ``` 
 
-	- Data insertion (see Logs section 5.1)
-		- To achieve greater simplicity, I assumed the ID structure given in the example:
-		ID:	134526		
-		1 - TOP LEVEL 0 ID
-		3 - Sub level 1 ID
-		4 - Sub level 2 ID
-		5 - Sub level 3 ID
-		2 - Sub level 4 ID
-		6 - Sub level 5 ID
+Data insertion 
+--
+		To achieve greater simplicity, I assumed the ID structure given in the example:
+	ID:	134526		
+	1 - TOP LEVEL 0 ID
+	3 - Sub level 1 ID
+	4 - Sub level 2 ID
+	5 - Sub level 3 ID
+	2 - Sub level 4 ID
+	6 - Sub level 5 ID
 
 
 

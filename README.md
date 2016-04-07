@@ -5,21 +5,21 @@
 ---
 <p> For this exercise I will use MySQL 5.6.26 integrated within Xampp's apache distribution. </p>
 
-###### Database
+##### Database
 --
 	Database name: tech_ex
 	Storage Engie: InnoDB
 	Collation: utf8mb4_unicode_ci
 --
 
-###### Tables
+##### Tables
 --
-####### raw_orders
+###### raw_orders
 	Table: "raw_orders"
 	Collation: "utf8mb4_unicode_ci"
 	Default Indexes: "order_id" and "PRIMARY"
 --
-####### formatted_orders
+###### formatted_orders
 	Table: "formatted_orders"
 	Collation: "utf8mb4_unicode_ci"
 	Default Indexes: "client_order_id" and "PRIMARY"

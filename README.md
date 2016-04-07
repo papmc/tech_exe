@@ -275,7 +275,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 ```
 
 --
-###### Trigger: Before INSERT:
+###### Trigger: Before INSERT
 --
 ```sql
  CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
@@ -286,7 +286,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
  END
 ```
 --
-###### Trigger: After UPDATE:
+###### Trigger: After UPDATE
 --
 	
 ```sql

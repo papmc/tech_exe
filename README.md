@@ -69,7 +69,7 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 
 #### 1.2.2
 ---
-<p> Created another <b>"stored procedure"</b> named <b>"populateFormattedOrders"</b> to populate the data from the <b>"formatted_orders"</b> table. <p>
+<p> Created another <b>"stored procedure"</b> named <b>"populateFormattedOrders"</b> to populate the data from the <b>"formatted_orders"</b> table. </p>
 
 --
 

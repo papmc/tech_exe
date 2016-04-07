@@ -322,32 +322,24 @@ BEGIN
         DECLARE it, currentit, currentit2, currentit3, currentit4, currentit5 INT DEFAULT 1;
         
         START TRANSACTION;
-		INSERT INTO log_db (id, times0, times1, times2, times3, times4, times5) VALUES (NULL, 0, 0, 0, 0, 0, 0);           
-        
         -- CREATE LEVEL 0
         WHILE it <= numCat DO			
 			INSERT INTO categories (id, category_level, parentid) VALUES(it, 0, null);           
-            UPDATE log_db SET times0  = it;
             -- CREATE LEVEL 1
             WHILE currentit <= numCat DO
               INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, currentit), 1, it);             
-              UPDATE log_db SET times1  = currentit * it;
               -- CREATE LEVEL 2
               WHILE currentit2 <= numCat DO
 				  INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, currentit2)), 2, concat(it, currentit));				  
-				  UPDATE log_db SET times2  = currentit2 * currentit * it;                  
                    -- CREATE LEVEL 3
                   WHILE currentit3 <= numCat DO
 						INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, currentit3))), 3, concat(it, concat(currentit, currentit2)));					
-						UPDATE log_db SET times3  = currentit3 *currentit2 * currentit * it ;                       
 						-- CREATE LEVEL 4
                         WHILE currentit4 <= numCat DO
 							INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))), 4, concat(it, concat(currentit, concat(currentit2, currentit3))));					
-							UPDATE log_db SET times4  = currentit4 * currentit3 * currentit2 * currentit * it;
                              -- CREATE LEVEL 5
                             WHILE currentit5 <= numCat DO
 								INSERT INTO categories (id, category_level, parentid) VALUES(concat(it, concat(currentit, concat(currentit2, concat(currentit3, concat(currentit4, currentit5))))), 5, concat(it, concat(currentit, concat(currentit2, concat(currentit3, currentit4)))));					
-								UPDATE log_db SET times5  = currentit5 * currentit4 * currentit3 * currentit2 * currentit * it;      
                                 SET currentit5 = currentit5 + 1;
                                 END WHILE;                             
                             SET currentit4 = currentit4 + 1;

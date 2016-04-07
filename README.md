@@ -7,6 +7,7 @@
 
 ##### Database
 --
+###### tech_ex
 	Database name: tech_ex
 	Storage Engie: InnoDB
 	Collation: utf8mb4_unicode_ci

@@ -30,17 +30,8 @@ Default Indexes: "client_order_id" and "PRIMARY"
 	
 1.2.2 - Created another "stored procedure" named "populateFormattedOrders" to populate the data from the "formatted_orders" table (see Logs section 1.2.2 for more details)
 
-1.2.3.1 - Collation error between the following fields (see section Logs 1.2.3 or more details):
-	"order_id" 			- Collation "utf8mb4_unicode_ci"
-	"client_order_id"	- Collation "utf8mb4_general_ci"
-	Solution: Collate one of the fields to match the other:
-		"client_order_id COLLATE utf8mb4_unicode_ci"
+1.2.3.1 - 
 	
-1.2.3.2 - Not applicable.
-	
-
-
-
 
 
 
@@ -85,6 +76,15 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 ```
 
 #### 1.2.3.1
+---
+###### Error
+Collation error between the following fields:
+	"order_id" 			- Collation "utf8mb4_unicode_ci"
+	"client_order_id"	- Collation "utf8mb4_general_ci"
+	Solution: Collate one of the fields to match the other:
+		"client_order_id COLLATE utf8mb4_unicode_ci"
+
+--
 ```sql
 SELECT * FROM formatted_orders AS fo 
 	JOIN raw_orders AS ro ON ro.order_id = fo.client_order_id COLLATE utf8mb4_unicode_ci
@@ -92,13 +92,15 @@ SELECT * FROM formatted_orders AS fo
 ```
 
 #### 1.2.3.2
+---
 - Not applicable.
 
 #### 1.2.4
-<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to create a foreign key between the two tables columns: "client_order_id" and "order_id", the two columns must have the same collation type.
-	Since the example given has different collations, I created a query to alter the collation type of the column "client_order_id" to "utf8mb4_unicode_ci". After
-	matching the two collations, it is now possible to create the foreign key "FK_orderID". Since the "DELETE" and "UPDATE" actions were not specified, these were assumed as "NO ACTION". </p>
-
+---
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to create a foreign key between the two tables columns: <b>"client_order_id"</b> and <b>"order_id"</b>, the two columns must have the same collation type.
+	Since the example given has different collations, I created a query to alter the collation type of the column <b>"client_order_id"</b> to <b>"utf8mb4_unicode_ci"</b>. After
+	matching the two collations, it is now possible to create the foreign key <b>"FK_orderID"</b>. Since the <b>"DELETE"</b> and <b>"UPDATE"</b> actions were not specified, these were assumed as <b>"NO ACTION"</b>. </p>
+--
 ###### Steps
 	1) There is a need to change the length and collation type of the column "client_order_id" in order to allow the "alter" command to execute
 	2) Change collation of column "client_order_id" from table "formatted_orders": "utf8mb4_general_ci" to "utf8mb4_unicode_ci"
@@ -107,8 +109,9 @@ SELECT * FROM formatted_orders AS fo
 	CHANGE client_order_id client_order_id VARCHAR(200) 
 	CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ```
-
+--
 ###### After the collation type has been change, the length can now be set to the original length - VARCHAR(50);
+--
 ```sql 
  ALTER TABLE formatted_orders 
 	CHANGE client_order_id client_order_id VARCHAR(50) 
@@ -125,6 +128,8 @@ SELECT * FROM formatted_orders AS fo
 ```
 	
 #### 2.1.1
+---
+
 ###### Improvements: 
 1. Remove nested select;
 2. Add the command **"USE INDEX(order_id)"** to the select.
@@ -147,7 +152,7 @@ SELECT * FROM formatted_orders AS fo
 
 #### 3.1
 ---
-<p> To achieve this result, I decided to create a function where I would concatenate all the amount of multiples of ten. Since not particular approuch restriction was given
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To achieve this result, I decided to create a function where I would concatenate all the amount of multiples of ten. Since not particular approuch restriction was given
 I assumed that the result would have to be a concatenation of all amount of <b>"order_revenue"</b> per value <b>"order_id"</b> interval. </p>
 
 --
@@ -181,7 +186,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 
 #### 4.1
 ---
-<p> To intersect rows that contain the same ID from both tables, <b>"INNER JOIN"</b>. </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To intersect rows that contain the same ID from both tables, <b>"INNER JOIN"</b>. </p>
 
 --
 ```sql
@@ -191,7 +196,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 
 #### 4.2
 ---
-<p> In order get the <b>"value"</b> column for both table, while only searching for an ID in the table <b>"t1"</b>, <b>"LEFT JOIN"</b> should be used  with the table <b>"t1"</b> on the left side of the join command.
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order get the <b>"value"</b> column for both table, while only searching for an ID in the table <b>"t1"</b>, <b>"LEFT JOIN"</b> should be used  with the table <b>"t1"</b> on the left side of the join command.
 
 
 --
@@ -208,7 +213,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 
 #### 4.3
 ---
-<p> To get only the which have only an ID in the table <b>"t2"</b>, a <b>"RIGHT JOIN"</b> should be used with the table <b>"t1"</b> on the left side of the join command. </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get only the which have only an ID in the table <b>"t2"</b>, a <b>"RIGHT JOIN"</b> should be used with the table <b>"t1"</b> on the left side of the join command. </p>
 --
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
@@ -278,7 +283,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 --
 ###### Data insertion 
 --
-<p> To achieve greater simplicity, I assumed the ID structure given in the example: </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To achieve greater simplicity, I assumed the ID structure given in the example: </p>
 	
 	ID:	134526		
 	1 - TOP LEVEL 0 ID
@@ -348,7 +353,7 @@ BEGIN
 
 #### 5.2.1
 ---
-<p> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
 
 --
 ```sql
@@ -358,7 +363,7 @@ BEGIN
 
 #### 5.2.2
 ---
-<p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
 --
 * Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
@@ -369,7 +374,7 @@ BEGIN
  
 #### 5.2.3
 ---
-<p> Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
 --
 * Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
@@ -380,7 +385,7 @@ BEGIN
 
 #### 5.2.4
 ---
-<p> The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
 --
 ```sql
  SELECT COUNT(*) FROM categories

@@ -150,7 +150,7 @@ SELECT * FROM formatted_orders AS fo
 
 ###### Improvements: 
 1. Remove nested select;
-2. Add the command **"USE INDEX(order_id)"** to the select.
+2. Add the command **"USE INDEX(order_id)"** to the from.
 
 ```sql 
 	SELECT raw_orders.*

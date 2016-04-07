@@ -112,6 +112,7 @@ SELECT * FROM formatted_orders AS fo
 * There is a need to change the length and collation type of the column **"client_order_id"** in order to allow the **"alter"** command to execute;
 
 * Change collation of column **"client_order_id"** from table **"formatted_orders"**: **"utf8mb4_general_ci"** to **"utf8mb4_unicode_ci"**.
+
 --
 ```sql
  ALTER TABLE formatted_orders 

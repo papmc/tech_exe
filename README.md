@@ -31,8 +31,8 @@
 --
 - Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server.
 * Solution: 
-	1. Create table with collation "utf8";
-	2. Collate the created table to "utf8mb4_unicode_ci".
+	1. Create table with collation **"utf8"**;
+	2. Collate the created table to **"utf8mb4_unicode_ci"**.
 	
 --	
 ###### 'formatted orders'

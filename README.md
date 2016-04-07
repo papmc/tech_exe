@@ -1,50 +1,53 @@
 # MySQL Technical Exercise
 
-################## DOCUMENTATION ####################
+
 ### Test Setup
+---
+<p> For this exercise I will use MySQL 5.6.26 integrated within Xampp's apache distribution. </p>
 
-For this exercise I will use MySQL 5.6.26 integrated within Xampp's apache distribution.
-
-###'
+###### Database
+--
 Database name: tech_ex
 Storage Engie: InnoDB
 Collation: utf8mb4_unicode_ci
-### 
+--
 
-### Tables
+###### Tables
+--
 Table: "raw_orders"
 Collation: "utf8mb4_unicode_ci"
 Default Indexes: "order_id" and "PRIMARY"
-
+--
 Table: "formatted_orders"
 Collation: "utf8mb4_unicode_ci"
 Default Indexes: "client_order_id" and "PRIMARY"
+--
 
+### Solutions
 
-#####################################################
-############### QUESTIONS ###########################
-1.1.1 - Since the "order_revenue" column, in both tables corresponds to currency, it will need an exact representation and not an approximate data type "FLOAT", therefore
-	I will use a "fixed-point" decimal data type. Change "FLOAT" data type to "DECIMAL(15, 2)" data type;
-	
-1.2.1 - Created and used a "stored procedure" loop for inserting data into the table "raw_orders" (check Logs section 1.2.1 for more details)
-	
-1.2.2 - Created another "stored procedure" named "populateFormattedOrders" to populate the data from the "formatted_orders" table (see Logs section 1.2.2 for more details)
-
-1.2.3.1 - 
-	
-
-
-
+---
 #### Notes
+---
+--
 - Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server.
-Solution: 
-	1) Create table with collation "utf8";
-	2) Collate the created table to "utf8mb4_unicode_ci".
+* Solution: 
+	1. Create table with collation "utf8";
+	2. Collate the created table to "utf8mb4_unicode_ci".
 	
+--	
 ###### 'formatted orders'
 - Provided query was misusing the command "use" within the "CREATE TABLE" - In order to create the table I had to remove this command;
+---
+
+#### 1.1.1 
+<p> Since the <b>"order_revenue"</b> column, in both tables corresponds to currency, it will need an exact representation and not an approximate data type <b>"FLOAT"</b>, thereforeI will use a <b>"fixed-point"</b> decimal data type. Change <b>"FLOAT"</b> data type to <b>"DECIMAL(15, 2)"</b> data type </p>
+	
 
 #### 1.2.1
+---
+* Created and used a **"stored procedure"** loop for inserting data into the table **"raw_orders"**.
+
+--
 ```sql
 CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 	BEGIN
@@ -65,6 +68,10 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 #  10000)
 
 #### 1.2.2
+---
+<p> Created another <b>"stored procedure"</b> named <b>"populateFormattedOrders"</b> to populate the data from the <b>"formatted_orders"</b> table. <p>
+
+--
 ```sql
 	CREATE PROCEDURE `populateFormattedOrders`()
 		BEGIN
@@ -102,8 +109,10 @@ SELECT * FROM formatted_orders AS fo
 	matching the two collations, it is now possible to create the foreign key <b>"FK_orderID"</b>. Since the <b>"DELETE"</b> and <b>"UPDATE"</b> actions were not specified, these were assumed as <b>"NO ACTION"</b>. </p>
 --
 ###### Steps
-	1) There is a need to change the length and collation type of the column "client_order_id" in order to allow the "alter" command to execute
-	2) Change collation of column "client_order_id" from table "formatted_orders": "utf8mb4_general_ci" to "utf8mb4_unicode_ci"
+* There is a need to change the length and collation type of the column **"client_order_id"** in order to allow the **"alter"** command to execute
+
+* Change collation of column **"client_order_id"** from table **"formatted_orders"**: **"utf8mb4_general_ci"** to **"utf8mb4_unicode_ci"**
+--
 ```sql
  ALTER TABLE formatted_orders 
 	CHANGE client_order_id client_order_id VARCHAR(200) 

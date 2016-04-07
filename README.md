@@ -189,14 +189,14 @@ SELECT * FROM formatted_orders AS fo
 ```
 
 #### 4.1
---
+---
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	INNER JOIN t2  ON t2.ID = t1.ID
 ```
 
 #### 4.2
---
+---
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	LEFT JOIN t2  ON t1.ID = t2.ID
@@ -208,20 +208,20 @@ SELECT * FROM formatted_orders AS fo
 ```
 
 #### 4.3
---
+---
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
  RIGHT JOIN t2  ON t1.ID = t2.ID
 ```
 
 #### 4.4
---
+---
 * Solution steps: 
 	1. In order to filter NULL values on the table **"t2"** for values in the table **"t1"**, a **"LEFT JOIN"** must be used where the table **"t1"** will be on the left side of the **"JOIN"** command;
 
 	2. In the second select **"significant_value"**, a **"CASE THEN"** command must be used to choose which value to return.
 	
----
+--
 ```sql
  SELECT t1.t_id AS product_id, 
 	IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
@@ -229,7 +229,7 @@ SELECT * FROM formatted_orders AS fo
 ```	
 
 #### 5.1
---
+---
 * Approuch taken:
 
 	1. In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category **"ID"** and **"parentid"**; 
@@ -237,9 +237,9 @@ SELECT * FROM formatted_orders AS fo
 	2. To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
 	and **"AFTER UPDATE"** triggers must be created;
 
----
+--
 ###### Table Creation:
----
+--
 ```sql
      CREATE TABLE categories
         ( id 					INT NOT NULL  PRIMARY KEY AUTO_INCREMENT
@@ -250,9 +250,9 @@ SELECT * FROM formatted_orders AS fo
      ) ENGINE=InnoDB
 ```
 
----
+--
 ###### Trigger: Before INSERT:
----
+--
 ```sql
  CREATE TRIGGER checkSubCategoryLevel BEFORE INSERT ON category
  FOR EACH ROW BEGIN
@@ -261,9 +261,9 @@ SELECT * FROM formatted_orders AS fo
     END IF;
  END
 ```
----
+--
 ###### Trigger: After UPDATE:
----
+--
 	
 ```sql
  CREATE TRIGGER checkSubCategoryLevelUpdate AFTER UPDATE ON categories
@@ -343,19 +343,19 @@ BEGIN
 ```
 
 #### 5.2.1
---
+---
 <p> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
 
----
+--
 ```sql
  SELECT * FROM categories
 	WHERE category_level = 0
 ```
 
 #### 5.2.2
--- S
-<p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
 ---
+<p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
+--
 * Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
 ```sql
@@ -364,9 +364,9 @@ BEGIN
 ```
  
 #### 5.2.3
---
-<p> Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
 ---
+<p> Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
+--
 * Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
 ```sql
@@ -375,9 +375,9 @@ BEGIN
 ```	
 
 #### 5.2.4
---
-<p> The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
 ---
+<p> The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
+--
 ```sql
  SELECT COUNT(*) FROM categories
 	WHERE category_level = 3	

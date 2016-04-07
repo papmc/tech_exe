@@ -72,6 +72,7 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 <p> Created another <b>"stored procedure"</b> named <b>"populateFormattedOrders"</b> to populate the data from the <b>"formatted_orders"</b> table. <p>
 
 --
+
 ```sql
 	CREATE PROCEDURE `populateFormattedOrders`()
 		BEGIN

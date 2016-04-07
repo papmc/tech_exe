@@ -1,4 +1,4 @@
-# MySQL Technical Exercise
+# MySQL - Technical Exercise
 
 
 ### Test Setup

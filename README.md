@@ -240,7 +240,7 @@ Provided query was misusing the command "use" within the "CREATE TABLE" - In ord
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	LEFT JOIN t2  ON t1.ID = t2.ID
 ```
-**OR**
+##### OR
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t2
 	RIGHT JOIN t1  ON t1.ID = t2.ID
@@ -320,10 +320,10 @@ BEGIN
 ```sql
  SELECT * FROM categories
 	WHERE category_level = 0
-```sql
+```
 
 #### 5.2.2
-- Select all Sub Categories level 3 from Parent TOP level 2 = 2
+- Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
 ```sql
  SELECT * FROM categories
@@ -331,15 +331,15 @@ BEGIN
 ```
  
 #### 5.2.3
-- Select all Sub Categories level 4 from Parent TOP level 2 = 5
+- Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
 ```sql
  SELECT * FROM categories
 	WHERE category_level = 4 AND  RIGHT(LEFT(parentid, 2), 1) = 5	
-```sql	
+```	
 
 #### 5.2.4
 ```sql
  SELECT COUNT(*) FROM categories
 	WHERE category_level = 3	
-```sql
+```

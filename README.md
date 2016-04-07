@@ -236,23 +236,26 @@ Provided query was misusing the command "use" within the "CREATE TABLE" - In ord
 ```
 
 #### 4.2
+---
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	LEFT JOIN t2  ON t1.ID = t2.ID
 ```
-##### OR
+###### OR
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t2
 	RIGHT JOIN t1  ON t1.ID = t2.ID
 ```
 
 #### 4.3
+---
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
  RIGHT JOIN t2  ON t1.ID = t2.ID
 ```
 
 #### 4.4
+---
 ```sql
  SELECT t1.t_id AS product_id, 
 	IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
@@ -260,6 +263,7 @@ Provided query was misusing the command "use" within the "CREATE TABLE" - In ord
 ```	
 
 #### 5.1
+---
 ```sql
 CREATE PROCEDURE `populateCategories`()
 
@@ -317,12 +321,14 @@ BEGIN
 ```
 
 #### 5.2.1
+---
 ```sql
  SELECT * FROM categories
 	WHERE category_level = 0
 ```
 
 #### 5.2.2
+---
 - Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
 ```sql
@@ -331,6 +337,7 @@ BEGIN
 ```
  
 #### 5.2.3
+---
 - Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
 ```sql
@@ -339,6 +346,7 @@ BEGIN
 ```	
 
 #### 5.2.4
+---
 ```sql
  SELECT COUNT(*) FROM categories
 	WHERE category_level = 3	

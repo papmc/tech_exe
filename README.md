@@ -229,33 +229,37 @@ Provided query was misusing the command "use" within the "CREATE TABLE" - In ord
 # 
 # DELIMITER ;
 
-### 4.1
-# SELECT t1.value as value1, t2.value AS value2 FROM t1
-# INNER JOIN t2  ON t2.ID = t1.ID
+#### 4.1
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t1
+	INNER JOIN t2  ON t2.ID = t1.ID
+```
 
-### 4.2
-# SELECT t1.value as value1, t2.value AS value2 FROM t1
-# LEFT JOIN t2  ON t1.ID = t2.ID
+#### 4.2
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t1
+	LEFT JOIN t2  ON t1.ID = t2.ID
+```
+**OR**
+```sql
+ SELECT t1.value as value1, t2.value AS value2 FROM t2
+	RIGHT JOIN t1  ON t1.ID = t2.ID
+```
 
-OR
-
-# SELECT t1.value as value1, t2.value AS value2 FROM t2
-# RIGHT JOIN t1  ON t1.ID = t2.ID
-
-## 4.3
+#### 4.3
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
  RIGHT JOIN t2  ON t1.ID = t2.ID
 ```
 
-## 4.4
+#### 4.4
 ```sql
  SELECT t1.t_id AS product_id, 
 	IF(t2.value IS NULL,  t1.value, t2.value) significant_value FROM t1
 	LEFT JOIN t2 ON t2.id = t1.t_id
 ```	
 
-## 5.1
+#### 5.1
 ```sql
 CREATE PROCEDURE `populateCategories`()
 
@@ -312,13 +316,13 @@ BEGIN
     END
 ```
 
-## 5.2.1
+#### 5.2.1
 ```sql
  SELECT * FROM categories
 	WHERE category_level = 0
 ```sql
 
-## 5.2.2
+#### 5.2.2
 - Select all Sub Categories level 3 from Parent TOP level 2 = 2
 
 ```sql
@@ -326,7 +330,7 @@ BEGIN
 	WHERE category_level = 3 AND (LEFT(parentid, 1) = 2)
 ```
  
-### 5.2.3
+#### 5.2.3
 - Select all Sub Categories level 4 from Parent TOP level 2 = 5
 
 ```sql
@@ -334,7 +338,7 @@ BEGIN
 	WHERE category_level = 4 AND  RIGHT(LEFT(parentid, 2), 1) = 5	
 ```sql	
 
-### 5.2.4
+#### 5.2.4
 ```sql
  SELECT COUNT(*) FROM categories
 	WHERE category_level = 3	

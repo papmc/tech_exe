@@ -54,17 +54,10 @@ Default Indexes: "client_order_id" and "PRIMARY"
 
 -----------------------
 
-3.1 - To achieve this result, I decided to create a function where I would concatenate all the amount of multiples of ten. Since not particular approuch restriction was given
-I assumed that the result would have to be a concatenation of all amount of "order_revenue" per value "order_id" interval;
-(see Logs section 3.1 for further details)
 
 -----------------------
 
-4.1 - To intersect rows that contain the same ID from both tables, "INNER JOIN". (see Logs section 4.1 for further details)
 
-4.2 - In order get the "value" column for both table, while only searching for an ID in the table "t1", "LEFT JOIN" should be used  with the table "t1" on the left side of the join command; (see Logs section 4.2 for further details)
-
-4.3 - To get only the which have only an ID in the table "t2", a "RIGHT JOIN" should be used with the table "t1" on the left side of the join command;
 
 
 
@@ -146,20 +139,31 @@ SELECT * FROM formatted_orders AS fo
 	
 #### 2.1.1
 ###### Improvements: 
-- Remove nested select;
-- Add the command "IGNORE INDEX(PRIMARY)" to the select.
+1. Remove nested select;
+2. Add the command "USE INDEX(order_id)" to the select.
 
-#### 2.2.2
+```sql 
+	SELECT raw_orders.*
+ 		FROM raw_orders USE INDEX(order_id)
+ 		JOIN formatted_orders AS fo ON fo.client_order_id  = raw_orders.order_id AND fo.order_id < 450
+ 		WHERE raw_orders.order_revenue > 50
+```
 
-#### 2.2.3
- 
-# SELECT raw_orders.*
-# FROM raw_orders
-# JOIN formatted_orders_copy AS fo ON fo.client_order_id  = raw_orders.order_id AND fo.order_id < 450
-# WHERE raw_orders.order_revenue > 50
+#### 2.1.2
+---
+<p> It is <b>not</b> necessary since the MySQL API enables the user the opportunity to ignore or use a specific index in a <b>"SELECT"</b> statement. 
+
+#### 2.1.3
+---
+* The field <b>"order_id"</b> in the table <b>"formatted_orders"</b> should be added as an index;
+
 
 #### 3.1
+---
+<p> To achieve this result, I decided to create a function where I would concatenate all the amount of multiples of ten. Since not particular approuch restriction was given
+I assumed that the result would have to be a concatenation of all amount of <b>"order_revenue"</b> per value <b>"order_id"</b> interval. </p>
 
+--
 ```sql
 	CREATE FUNCTION revenueMultiples10 ()
 	RETURNS TEXT
@@ -190,6 +194,9 @@ SELECT * FROM formatted_orders AS fo
 
 #### 4.1
 ---
+<p> To intersect rows that contain the same ID from both tables, <b>"INNER JOIN"</b>. </p>
+
+--
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	INNER JOIN t2  ON t2.ID = t1.ID
@@ -197,11 +204,16 @@ SELECT * FROM formatted_orders AS fo
 
 #### 4.2
 ---
+<p> In order get the <b>"value"</b> column for both table, while only searching for an ID in the table <b>"t1"</b>, <b>"LEFT JOIN"</b> should be used  with the table <b>"t1"</b> on the left side of the join command.
+
+
+--
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	LEFT JOIN t2  ON t1.ID = t2.ID
 ```
 ###### OR
+
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t2
 	RIGHT JOIN t1  ON t1.ID = t2.ID
@@ -209,6 +221,8 @@ SELECT * FROM formatted_orders AS fo
 
 #### 4.3
 ---
+<p> To get only the which have only an ID in the table <b>"t2"</b>, a <b>"RIGHT JOIN"</b> should be used with the table <b>"t1"</b> on the left side of the join command. </p>
+--
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t1
  RIGHT JOIN t2  ON t1.ID = t2.ID
@@ -274,6 +288,7 @@ SELECT * FROM formatted_orders AS fo
  END
 ``` 
 
+--
 ###### Data insertion 
 --
 <p> To achieve greater simplicity, I assumed the ID structure given in the example: </p>

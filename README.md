@@ -335,7 +335,7 @@ BEGIN
 ```
 
 #### 5.2.1
-<p> Since my design included a **"category_level"** field, I only need to execute a **"SELECT"** command with a **"WHERE"** clause indicating the **"category_level"** equals 0. </p>
+<p> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
 
 ---
 ```sql

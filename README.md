@@ -274,9 +274,10 @@ SELECT * FROM formatted_orders AS fo
  END
 ``` 
 
-Data insertion 
+###### Data insertion 
 --
-		To achieve greater simplicity, I assumed the ID structure given in the example:
+<p> To achieve greater simplicity, I assumed the ID structure given in the example: </p>
+	
 	ID:	134526		
 	1 - TOP LEVEL 0 ID
 	3 - Sub level 1 ID

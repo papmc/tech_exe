@@ -335,7 +335,7 @@ BEGIN
 ```
 
 #### 5.2.1
-- Since my design included a **"category_level"** field, I only need to execute a **"SELECT"** command with a **"WHERE"** clause indicating the **"category_level"** equals 0. 
+	- Since my design included a **"category_level"** field, I only need to execute a **"SELECT"** command with a **"WHERE"** clause indicating the **"category_level"** equals 0. 
 
 ---
 ```sql
@@ -344,9 +344,9 @@ BEGIN
 ```
 
 #### 5.2.2
-- Assuming the data architecture described in the section 5.1, the **"LEFT(parentid, 1)"** command needs to be executed in order to retrieve the ID of the parent top level id; 
+	- Assuming the data architecture described in the section 5.1, the **"LEFT(parentid, 1)"** command needs to be executed in order to retrieve the ID of the parent top level id; 
 ---
-- Select all Sub Categories level 3 from Parent TOP level 2 = 2:
+	- Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
 ```sql
  SELECT * FROM categories
@@ -354,9 +354,9 @@ BEGIN
 ```
  
 #### 5.2.3
-- Since the operator **"LIKE"** cannot be used, I decided to use the operators **"RIGHT"** and **"LEFT"** in conjuction to obtain the desired result. 
+	- Since the operator **"LIKE"** cannot be used, I decided to use the operators **"RIGHT"** and **"LEFT"** in conjuction to obtain the desired result. 
 ---
-- Select all Sub Categories level 4 from Parent TOP level 2 = 5:
+	- Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
 ```sql
  SELECT * FROM categories
@@ -364,7 +364,7 @@ BEGIN
 ```	
 
 #### 5.2.4
-- The use of the command **"COUNT(*)"** in conjunction with the clause **"WHERE"** specifying the sub category 4 produces the desired result.
+	- The use of the command **"COUNT(*)"** in conjunction with the clause **"WHERE"** specifying the sub category 4 produces the desired result.
 ---
 ```sql
  SELECT COUNT(*) FROM categories

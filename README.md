@@ -207,7 +207,7 @@ I assumed that the result would have to be a concatenation of all amount of <b>"
 
 #### 4.2
 ---
-<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order get the <b>"value"</b> column for both table, while only searching for an ID in the table <b>"t1"</b>, <b>"LEFT JOIN"</b> should be used  with the table <b>"t1"</b> on the left side of the join command.
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order get the <b>"value"</b> column for both table, while only searching for an ID in the table <b>"t1"</b>, <b>"LEFT JOIN"</b> should be used  with the table <b>"t1"</b> on the left side of the join command. </p>
 
 
 --

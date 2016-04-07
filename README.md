@@ -58,7 +58,7 @@ CREATE PROCEDURE InsertRandomData_rawOrders(numRows, min, max)
 		SET i = 1;
 		START TRANSACTION;
 		WHILE i <= NumRows DO
-			INSERT INTO raw_orders (order_revenue, order_id) VALUES (MinVal + round(RAND() * (MaxVal - MinVal), 2), UUID());
+			INSERT INTO raw_orders (order_revenue, order_id) VALUES (min + round(RAND() * (max - min), 2), UUID());
 			SET i = i + 1;
 		END WHILE;
 		COMMIT;

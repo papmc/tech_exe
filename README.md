@@ -214,6 +214,7 @@ SELECT * FROM formatted_orders AS fo
 ```
 
 #### 4.4
+---
 * Solution steps: 
 	1. In order to filter NULL values on the table **"t2"** for values in the table **"t1"**, a **"LEFT JOIN"** must be used where the table **"t1"** will be on the left side of the **"JOIN"** command;
 
@@ -227,6 +228,7 @@ SELECT * FROM formatted_orders AS fo
 ```	
 
 #### 5.1
+---
 * Approuch taken:
 
 	1. In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category **"ID"** and **"parentid"**; 
@@ -340,6 +342,7 @@ BEGIN
 ```
 
 #### 5.2.1
+---
 <p> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
 
 ---
@@ -349,6 +352,7 @@ BEGIN
 ```
 
 #### 5.2.2
+---
 <p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
 ---
 * Select all Sub Categories level 3 from Parent TOP level 2 = 2:
@@ -359,6 +363,7 @@ BEGIN
 ```
  
 #### 5.2.3
+---
 <p> Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
 ---
 * Select all Sub Categories level 4 from Parent TOP level 2 = 5:
@@ -369,6 +374,7 @@ BEGIN
 ```	
 
 #### 5.2.4
+---
 <p> The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
 ---
 ```sql

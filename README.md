@@ -94,7 +94,7 @@ Collation error between the following fields:
 ###### Solution
 * Collate one of the fields to match the other:
 
-	""client_order_id"" COLLATE ""utf8mb4_unicode_ci""
+	"client_order_id" COLLATE "utf8mb4_unicode_ci"
 
 --
 ```sql

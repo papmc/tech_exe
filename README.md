@@ -241,7 +241,7 @@ Provided query was misusing the command "use" within the "CREATE TABLE" - In ord
  SELECT t1.value as value1, t2.value AS value2 FROM t1
 	LEFT JOIN t2  ON t1.ID = t2.ID
 ```
-::OR::
+:: OR ::
 ```sql
  SELECT t1.value as value1, t2.value AS value2 FROM t2
 	RIGHT JOIN t1  ON t1.ID = t2.ID

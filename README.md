@@ -225,9 +225,9 @@ SELECT * FROM formatted_orders AS fo
 #### 5.1
 
 
-5.1 - Table creation:
+* Table creation:
 
-	1) In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
+	** In order to have a subcategory hierarchy type, a foreign key must be defined so that there is a link between the category "ID" and "parentid"; 
 
 ```sql
      CREATE TABLE categories
@@ -239,7 +239,7 @@ SELECT * FROM formatted_orders AS fo
      ) ENGINE=InnoDB
 ```
 
-	2) To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
+	** To filter wrong data insertion of the subcategory level, i.e. between 0 and 5, the **"BEFORE INSERT"**
 	and **"AFTER UPDATE"** triggers must be created;
 	
 ---
@@ -346,7 +346,7 @@ BEGIN
 #### 5.2.2
 <p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
 ---
-	- Select all Sub Categories level 3 from Parent TOP level 2 = 2:
+* Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
 ```sql
  SELECT * FROM categories
@@ -364,7 +364,7 @@ BEGIN
 ```	
 
 #### 5.2.4
-	- The use of the command **"COUNT(*)"** in conjunction with the clause **"WHERE"** specifying the sub category 4 produces the desired result.
+<p> The use of the command <b>"COUNT(*)"</b> in conjunction with the clause <b>"WHERE"</b> specifying the sub category 4 produces the desired result. </p>
 ---
 ```sql
  SELECT COUNT(*) FROM categories

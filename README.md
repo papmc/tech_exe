@@ -335,7 +335,7 @@ BEGIN
 ```
 
 #### 5.2.1
-<p margin-left: 1em;> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
+<p> Since my design included a <b>"category_level"</b> field, I only need to execute a <b>"SELECT"</b> command with a <b>"WHERE"</b> clause indicating the <b>"category_level"</b> equals 0. </p>
 
 ---
 ```sql
@@ -344,7 +344,7 @@ BEGIN
 ```
 
 #### 5.2.2
-	- Assuming the data architecture described in the section 5.1, the **"LEFT(parentid, 1)"** command needs to be executed in order to retrieve the ID of the parent top level id; 
+<p> Assuming the data architecture described in the section 5.1, the <b>"LEFT(parentid, 1)"</b> command needs to be executed in order to retrieve the ID of the parent top level id.</p> 
 ---
 	- Select all Sub Categories level 3 from Parent TOP level 2 = 2:
 
@@ -354,9 +354,9 @@ BEGIN
 ```
  
 #### 5.2.3
-	- Since the operator **"LIKE"** cannot be used, I decided to use the operators **"RIGHT"** and **"LEFT"** in conjuction to obtain the desired result. 
+<p> Since the operator <b>"LIKE"</b> cannot be used, I decided to use the operators <b>"RIGHT"</b> and <b>"LEFT"</b> in conjuction to obtain the desired result. </p>
 ---
-	- Select all Sub Categories level 4 from Parent TOP level 2 = 5:
+* Select all Sub Categories level 4 from Parent TOP level 2 = 5:
 
 ```sql
  SELECT * FROM categories

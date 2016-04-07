@@ -28,7 +28,6 @@
 ---
 #### Notes
 ---
---
 - Collation - utf8mb4_unicode_ci - unknown collation to the MySQL server.
 * Solution: 
 	1. Create table with collation "utf8";
@@ -36,6 +35,7 @@
 	
 --	
 ###### 'formatted orders'
+--
 <p> The provided query was misusing the command <b>"use"</b> within the <b>"CREATE TABLE"</b> - In order to create the table I had to remove this command. </p>
 ---
 

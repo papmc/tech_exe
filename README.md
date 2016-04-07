@@ -35,7 +35,6 @@
 	
 --	
 ###### 'formatted orders'
---
 <p> The provided query was misusing the command <b>"use"</b> within the <b>"CREATE TABLE"</b> - In order to create the table I had to remove this command. </p>
 ---
 

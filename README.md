@@ -1,4 +1,4 @@
-# MySQL - Technical Exercise
+# MySQL - Technical Exercise - Property of pcanilho.teleng@gmail.com
 
 
 ### Test Setup
